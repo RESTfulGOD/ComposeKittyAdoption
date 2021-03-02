@@ -22,12 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -116,13 +111,13 @@ class MainActivity : AppCompatActivity() {
 fun MyApp() {
     val viewModel: MyViewModel = viewModel()
     Surface(color = MaterialTheme.colors.background) {
-        homePage(lists = lists, viewModel = viewModel)
+        HomePage(lists = lists, viewModel = viewModel)
     }
 }
 
 
 @Composable
-fun homePage(lists: List<Data>, viewModel: MyViewModel) {
+fun HomePage(lists: List<Data>, viewModel: MyViewModel) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -131,20 +126,12 @@ fun homePage(lists: List<Data>, viewModel: MyViewModel) {
 
         if (viewModel.openModule) {
             viewModel.currentData?.let {
-                dataPage(data = it)
+                DataPage(data = it)
             }
         } else {
             LazyColumn(modifier = Modifier.background(MaterialTheme.colors.onBackground)) {
                 itemsIndexed(lists) { index: Int, data: Data ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(3.dp)
-                            .clickable(onClick = {
-                                viewModel.start(data)
-                            }),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
+                    Row(modifier = Modifier.fillMaxSize().padding(3.dp).clickable(onClick = { viewModel.start(data) }), verticalAlignment = Alignment.CenterVertically,) {
                         Text(
                             text = index.toString(),
                             fontSize = 15.sp,
@@ -180,7 +167,7 @@ fun homePage(lists: List<Data>, viewModel: MyViewModel) {
 }
 
 @Composable
-fun dataPage(data: Data) {
+fun DataPage(data: Data) {
     Column(
         modifier = Modifier
             .fillMaxSize()
